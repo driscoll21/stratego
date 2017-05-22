@@ -1,0 +1,2 @@
+# stratego
+Multiplayer Stratego
