@@ -1,0 +1,232 @@
+* {
+	font-family: 'Open Sans', sans-serif;
+}
+
+button {
+	border-radius: 5px;
+	font-size: 20px;
+	padding: 7px 10px;
+	cursor: pointer;
+	color: #FFF;
+	background-color: #009cc0;
+	font-size: 1.5rem;
+	font-weight: 100;
+	border: 1px solid #fff;
+	/*box-shadow: 2px 2px 5px #AFE9FF;*/
+}
+
+.piecesWrapper {
+	position: absolute;
+	top: 0;
+	left: 50px;
+}
+
+.piecesWrapper h2 {
+	font-family: 'Slabo 13px', serif;
+}
+
+.pieces ul {
+	padding-left: 0;
+	list-style-type: none;
+}
+
+.pieces ul li {
+	width: 200px;
+}
+
+.pieces ul li span {
+	float: right;
+}
+
+.gameWrapper {
+	width: 900px;
+	height: 950px;
+	background: #d5d9cc;
+	/*background: lightpink;*/
+	/*border: solid black 1px;*/
+	margin: 0 auto;
+}
+
+.gameHeader {
+	background: #d5d9cc;
+	/*background: grey;*/
+	/*border: dotted grey 1px;*/
+	height: 120px;
+	margin-left: 50px;
+	padding-top: 10px;
+}
+
+.gameHeader p {
+	margin: 0;
+	margin-left: 5px;
+	color: black;
+}
+
+.gameHeader button {
+	margin-left: 5px;
+}
+
+.gameHeader label {
+	display: block;
+}
+
+.gameBoard {
+	width: 800px;
+	height: 800px;
+	/*background: #6e9934;*/
+	margin: 0 auto;
+	font-family: 'Slabo 13px', serif;
+}
+
+.gameBoard .boardRow {
+	display: block;
+	height: 10%;
+}
+
+.gameBoard .tile {
+	width: 80px;
+	height: 80px;
+	background: #6e9934;
+	/*border: solid #ef3d47 1px;*/
+	border: solid white 1px;
+	color: white;
+	float: left;
+	text-align: center;
+	padding-top: 30px;
+	font-size: 16px;
+}
+
+.gameBoard .lakeTile {
+	width: 80px;
+	height: 80px;
+	/*width: 160px;
+	height: 160px;*/
+	/*background: lightblue;*/
+	/*border: solid white 1px;*/
+	color: white;
+	float: left;
+	/*text-align: center;*/
+	/*padding-top: 30px;*/
+	/*background-size: 300px 300px;*/
+}
+
+.gameBoard #t42 {
+	background: url("../images/lake1.png") no-repeat;
+	background-size: 200%;
+	background-position: 0px 0px;
+	background-color: #6e9934;
+	border-left: solid white 1px;
+	border-top: solid white 1px;
+}
+
+.gameBoard #t43 {
+	background: url("../images/lake1.png") no-repeat;
+	background-size: 200%;
+	background-position: -80px 0px;
+	background-color: #6e9934;
+	border-right: solid white 1px;
+	border-top: solid white 1px;
+}
+
+.gameBoard #t52 {
+	background: url("../images/lake1.png") no-repeat;
+	background-size: 200%;
+	background-position: 0px -80px;
+	background-color: #6e9934;
+	border-left: solid white 1px;
+	border-bottom: solid white 1px;
+}
+
+.gameBoard #t53 {
+	background: url("../images/lake1.png") no-repeat;
+	background-size: 200%;
+	background-position: -80px -80px;
+	background-color: #6e9934;
+	border-right: solid white 1px;
+	border-bottom: solid white 1px;
+}
+
+.gameBoard #t46 {
+	background: url("../images/lake2.png") no-repeat;
+	background-size: 200%;
+	background-position: 0px 0px;
+	background-color: #6e9934;
+	border-left: solid white 1px;
+	border-top: solid white 1px;
+}
+
+.gameBoard #t47 {
+	background: url("../images/lake2.png") no-repeat;
+	background-size: 200%;
+	background-position: -80px 0px;
+	background-color: #6e9934;
+	border-right: solid white 1px;
+	border-top: solid white 1px;
+}
+
+.gameBoard #t56 {
+	background: url("../images/lake2.png") no-repeat;
+	background-size: 200%;
+	background-position: 0px -80px;
+	background-color: #6e9934;
+	border-left: solid white 1px;
+	border-bottom: solid white 1px;
+}
+
+.gameBoard #t57 {
+	background: url("../images/lake2.png") no-repeat;
+	background-size: 200%;
+	background-position: -80px -80px;
+	background-color: #6e9934;
+	border-right: solid white 1px;
+	border-bottom: solid white 1px;
+}
+
+.gameBoard .player1 {
+	color: black;
+}
+
+.gameBoard .player2 {
+	color: white;
+}
+
+.gameBoard .unclickable {
+	background: lightblue;
+}
+
+.gameBoard .validMove {
+	background: #99cc66;
+}
+
+.gameFooter {
+	background: #d5d9cc;
+	/*background: grey;*/
+	height: 50px;
+	/*border: dotted blue 1px;*/
+}
+
+@-webkit-keyframes affectedTile {
+    0% {
+        background-color: #99cc66;
+        opacity:1;
+    }
+    22% {
+        background-color: #99cc66;
+    }
+    /*100% {
+        background-color: #777;
+    }*/
+}
+    
+.affectedTile {
+    -webkit-animation-name: affectedTile;
+    -webkit-animation-duration: 900ms;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in-out;
+} 
+
+@media (max-width: 1500px) {
+	.piecesWrapper {
+		position: relative;
+	}
+}
