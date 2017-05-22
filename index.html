@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Will Driscoll</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/strat.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Slabo+13px" rel="stylesheet">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script type="text/javascript" src="js/stratego.js"></script>
+</head>
+<body>
+	<div class="gameWrapper">
+		<div class="gameHeader">
+			<p>Status: <span id="status">Idle...</span></p>
+			<p id="gamesToJoin">Game 1: <span id="playersReady">0</span>/2 Players
+			<p id="lastAction" class="hidden">Last Action: <span id="lastActionSpan"></span></p>
+			<button id="submit" value="joinGame">Join</button></p>
+			<p id="player"></p>
+		</div>
+		<div class="gameBoard" id="gameBoard"></div>
+		<div class="gameFooter"></div>
+	</div>
+	<div class="piecesWrapper">
+		<div class="pieces player1Pieces">
+			<h2>Player 1 Pieces</h2>
+			<ul>
+				<li class="10">10 Marshal. <span>Remaining: 1</span></li>
+				<li class="9">9 General. <span>Remaining: 1</span></li>
+				<li class="8">8 Colonel. <span>Remaining: 2</span></li>
+				<li class="7">7 Major. <span>Remaining: 3</span></li>
+				<li class="6">6 Captain. <span>Remaining: 4</span></li>
+				<li class="5">5 Lieutenant. <span>Remaining: 4</span></li>
+				<li class="4">4 Sergeant. <span>Remaining: 4</span></li>
+				<li class="3">3 Miner. <span>Remaining: 5</span></li>
+				<li class="2">2 Scout. <span>Remaining: 8</span></li>
+				<li class="S">&#127913; Spy. <span>Remaining: 1</span></li>
+				<li class="B">&#128163; Bombs. <span>Remaining: 6</span></li>
+				<li class="F">&#9873; Flag. <span>Remaining: 1</span></li>
+			</ul>
+			<button value="placePlayer1" id="placePlayer1">Place my pieces for me</button>
+		</div>
+		<div class="pieces player2Pieces">
+			<h2>Player 2 Pieces</h2>
+			<ul>
+				<li class="10">10 Marshal. <span>Remaining: 1</span></li>
+				<li class="9">9 General. <span>Remaining: 1</span></li>
+				<li class="8">8 Colonel. <span>Remaining: 2</span></li>
+				<li class="7">7 Major. <span>Remaining: 3</span></li>
+				<li class="6">6 Captain. <span>Remaining: 4</span></li>
+				<li class="5">5 Lieutenant. <span>Remaining: 4</span></li>
+				<li class="4">4 Sergeant. <span>Remaining: 4</span></li>
+				<li class="3">3 Miner. <span>Remaining: 5</span></li>
+				<li class="2">2 Scout. <span>Remaining: 8</span></li>
+				<li class="S">&#127913; Spy. <span>Remaining: 1</span></li>
+				<li class="B">&#128163; Bombs. <span>Remaining: 6</span></li>
+				<li class="F">&#9873; Flag. <span>Remaining: 1</span></li>
+			</ul>
+			<button value="placePlayer2" id="placePlayer2">Place my pieces for me</button>
+		</div>
+	</div>
+  </body>
+</html>
