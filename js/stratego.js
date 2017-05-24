@@ -1,4 +1,7 @@
-//initialize the game board
+/**
+ * This is a self executing function used to intitialize the game board
+ * @function
+ */
 $(function () {
 	for(i = 0; i < 10; i++) {
 		var rowDiv = document.createElement("div");
@@ -29,17 +32,20 @@ $(function () {
 		}
 	}
 	// removing the lakes tiles that are not the top left tile
-	// $("#43, #47, #52, #53, #56, #57").removeClass("tile");
 	$("#t42, #t43, #t46, #t47, #t52, #t53, #t56, #t57").addClass("lakeTile");
 	$("#t42, #t43, #t46, #t47, #t52, #t53, #t56, #t57").removeClass("tile");
 });
 
-//giant function that controls the client side flow
+/**
+ * This is a self executing function used to define the
+ * entire client
+ * @function
+ */
 $(function () {
     
     //initialize all the variables we need
     window.WebSocket = window.WebSocket || window.MozWebSocket;
-   	var connection = new WebSocket('your connection here'); //edit
+   	var connection = new WebSocket('ws://willdriscoll.io:8080');
 
     var submit = $("#submit")
     var status = $("#status");
@@ -105,21 +111,35 @@ $(function () {
 
     var unclickableTiles = [42, 43, 46, 47, 52, 53, 56, 57];
 
-    // on connect, send message saying we have connected
+    /**
+     * This is a built-in websocket function that we call when
+     * a connection is made.
+     * We send a message telling the server we connected.
+     * @function
+     */
     connection.onopen = function () {
     	connection.send(JSON.stringify({"action" : "connected"}));
     };
 
-    // connection errored out, log message
+    /**
+     * This is a built-in websocket function that we call when 
+     * a connection errors. Then we close the connection.
+     * @function
+     */
     connection.onerror = function (error) {
         log("We errored. Closing connection.")
         connection.close();
     };
 
-    // receiving a message from the server
-    // can receive one of 12 messages. parse and act accordingly
+    
+    /**
+     * This is a built-in websocket function that we call when 
+     * we receive a message from the server. It can be one of 12
+     * different messages depending on the situation.
+     * @function
+     * @param {object} message - the json message from the server
+     */
     connection.onmessage = function (message) {
-        // parse json message. all messages from server are json
         try {
             var json = JSON.parse(message.data);
         } catch (e) {
@@ -161,8 +181,12 @@ $(function () {
         	// both players may begin placing pieces
         	case 'boardPlace':
         		log("The game id is: " + gameID);
-        		status.html("Opponent Found. Begin placing your pieces!");
+        		status.html("Opponent Found. Begin placing your pieces! Start by clicking the piece you want to place in the sidebar.");
         		playersReady.html("2");
+        		$("#lastAction").addClass("hidden")
+        		$("#lastActionSpan").html("")
+        		// lastAction.addClass("hidden");
+        		// lastAction.html("");
         		submit.attr({"value" : "ready"})
         		submit.html("Board Ready");
         		playState = 2;
@@ -197,8 +221,8 @@ $(function () {
         		}
         		// submit.addClass += " hidden"
         		submit.addClass("hidden");
-        		$("#gamesToJoin").addClass("hidden");
         		$("#lastAction").removeClass("hidden");
+        		$("#gamesToJoin").addClass("hidden");
         		$("#placePlayer").hide();
         		resetPieceCount();
         		break;
@@ -239,6 +263,7 @@ $(function () {
         		var winner = json['player'];
         		lastAction.html(lastAction.html() + ". Player " + winner + " wins! Good game!");
         		disableBoard();
+        		$(".validMove").removeClass("validMove");
         		submit.attr({"value" : "rematch"});
         		submit.html("Rematch");
         		submit.removeClass("hidden");
@@ -255,7 +280,6 @@ $(function () {
         		whichPlayer = 0;
         		resetBoard();
         		$("#gamesToJoin").removeClass("hidden");
-        		$("#lastAction").addClass("hidden");
         		$("#placePlayer").show();
         		submit.attr({"value" : "joinGame"});
         		submit.html("Join");
@@ -264,7 +288,11 @@ $(function () {
         }
     };
 
-    //the submit button was clicked, lets send a message to the server
+    /**
+     * This is a helper function to send a message based on the user hitting
+     * the submit button
+     * @function
+     */
     submit.on("click", function() {
     	try {
     		var currentAction = submit.val();
@@ -284,7 +312,11 @@ $(function () {
     		return;
     	}
 
-    	// helper function to see if all the required pieces have been placed
+    	/**
+    	 * This is a helper function to ensure the placement is valid
+    	 * before sending the board placement off to the server
+    	 * @function
+    	 */
     	function checkIfValidBoardStart() {
     		if (whichPlayer === 1) {
     			var sum = 0;
@@ -319,8 +351,12 @@ $(function () {
     		}
     	}
 
-    	// build an array containing the current players board state to be 
-    	// sent to the server
+    	
+    	/**
+    	 * This is a helper function to build the board state
+    	 * we send to the server
+    	 * @function
+    	 */
     	function buildBoardState() {
     		if (whichPlayer === 1) {
     			for (var i = 0; i < 40; i++) {
@@ -354,13 +390,21 @@ $(function () {
     	}
     })
 
+    /**
+     * This is a helper function to disable the board after the game ends
+     * @function
+     */
     function disableBoard() {
     	for (var i = 0; i < 100; i++) {
     		$("#t" + i).addClass("immovable");
     	}
     }
 
-    //functions for placing p1 pieces
+    /**
+     * This is a helper function to facilitate with the board place process
+     * for player 2
+     * @function
+     */
     $(".player1Pieces li").on("click", function() {
     	console.log("p1 pieces li")
     	if (whichPlayer === 1) {
@@ -377,7 +421,11 @@ $(function () {
     	}
     })
 
-    //functions for placing p2 pieces
+    /**
+     * This is a helper function to facilitate with the board place process
+     * for player 2
+     * @function
+     */
     $(".player2Pieces li").on("click", function() {
     	if (whichPlayer === 2) {
     		var tempPieceToPlace = $(this).attr("class");
@@ -390,7 +438,11 @@ $(function () {
     	}
     })
 
-    //populating the board in the board place stage for p1
+    /**
+     * This is a helper function to facilitate with the board place process
+     * for player 2
+     * @function
+     */
     $(".boardRow .player1").on("click", function() {
     	// this if allows you to pick up your pieces if you have none selected
     	if (whichPlayer === 1 && pieceToPlace === 0 && playState ==2) {
@@ -465,7 +517,11 @@ $(function () {
     	}
     })
 
-    //populating the board in the board place stage for p1
+    /**
+     * This is a helper function to facilitate with the board place process
+     * for player 2
+     * @function
+     */
     $(".boardRow .player2").on("click", function() {
     	if (whichPlayer === 2 && pieceToPlace === 0 && playState ==2) {
     		var currentPiece = $(this).html();
@@ -539,7 +595,10 @@ $(function () {
     	}
     })
 
-    //function used to auto-generate random board placements. used for testing
+    /**
+     * This is a helper function to place pieces for either player.
+     * @function
+     */
     $("#placePlayer").on("click", function() {
     	if(playState == 2 || playState == 3 || playState == 4) {
     		if (whichPlayer == 1) {
@@ -554,7 +613,11 @@ $(function () {
     	}
     })
 
-    //helper function to achieve random board placings
+    /**
+     * This is a helper function to randomly place pieces on the board
+     * during the boardPlace setting
+     * @function
+     */
     function placePieces (player) {
     	var piecesToPlace = [10, 9, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, "S", "B", "B", "B", "B", "B", "B", "F"];
     	if (player === 1) {
@@ -622,8 +685,11 @@ $(function () {
     	}
     }
 
-    //on click function to show valid moves when its your turn and your piece is clicked
-    //use this delegated event because we dynamically generate things
+    /**
+     * This is a helper function to select a tile and see
+     * what valid moves are from it for player 2.
+     * @function
+     */
     $("div").on("click", ".player1:not('.immovable, .validMove')", function() {
     	if (whichPlayer === 1) {
 	    	if (playState === 6) {
@@ -638,8 +704,11 @@ $(function () {
     	}
     })
     
-    //on click function to show valid moves when its your turn and your piece is clicked
-    //use this delegated event because we dynamically generate things
+    /**
+     * This is a helper function to select a tile and see
+     * what valid moves are from it for player 1.
+     * @function
+     */
     $("div").on("click", ".player2:not('.immovable, .validMove')", function() {
     	log("inside pl2 clicked a piece. wp: " + whichPlayer + ". Playstate: " + playState);
     	//your turn and nothing selected
@@ -654,7 +723,11 @@ $(function () {
     	}
     })
 
-    // if we click on a tile that is designated to be a valid move, send the move to the server
+    /**
+     * This is a helper function that sends a move if we click on a tile
+     * with validMove class
+     * @function
+     */
     $(".tile").on("click", function() {
     	if ($(this).hasClass("validMove")) {
 	    	destinationTile = $(this).attr("id").substring(1);
@@ -662,9 +735,10 @@ $(function () {
     	}
     })
 
-    // generate valid moves for the given square
-    // calls 4 recursive functions to check in the four directions
-    // a piece may move
+    /**
+     * This is a helper function to call check in all four directions
+     * @function
+     */
     function showValidMoves (player, tile, tilePiece) {
     	$(".validMove").removeClass("validMove");
     	checkLeft(player, parseInt(tile) - 1, tilePiece);
@@ -674,6 +748,14 @@ $(function () {
     	return;
     }
 
+    /**
+     * This is a helper function to check all valid moves in the left direction
+     * Can be called recursively if tilePiece is 2
+     * @function
+     * @param {int} player - player 1 or 2
+     * @param {int} tile - the tile we want to move from
+     * @param {string} tilePiece - what piece is contained at the tile
+     */
     function checkLeft(player, tile, tilePiece) {
     	log("CheckLeft was run.")
     	log("Player: " + player + " Tile: " + tile + " Piece: " + tilePiece)
@@ -687,7 +769,7 @@ $(function () {
     		return;
     	}
 
-    	//unclickables yo
+    	//can't move into unclickable
     	if (unclickableTiles.indexOf(tile) !== -1) {
     		return;
     	}
@@ -711,12 +793,19 @@ $(function () {
     				checkLeft(player, tile - 1, tilePiece)
     			}
     		}
-
     	} else {
     		tileExists.addClass("validMove");
     	}
     }
 
+    /**
+     * This is a helper function to check all valid moves in the up direction
+     * Can be called recursively if tilePiece is 2
+     * @function
+     * @param {int} player - player 1 or 2
+     * @param {int} tile - the tile we want to move from
+     * @param {string} tilePiece - what piece is contained at the tile
+     */
     function checkUp(player, tile, tilePiece) {
     	log("CheckUp was run.")
     	log("Player: " + player + " Tile: " + tile + " Piece: " + tilePiece)
@@ -731,7 +820,7 @@ $(function () {
     		return;
     	}
 
-    	//unclickables yo
+    	//can't move into unclickable
     	if (unclickableTiles.indexOf(tile) !== -1) {
     		return;
     	}
@@ -760,6 +849,14 @@ $(function () {
     	}
     }
 
+    /**
+     * This is a helper function to check all valid moves in the right direction
+     * Can be called recursively if tilePiece is 2
+     * @function
+     * @param {int} player - player 1 or 2
+     * @param {int} tile - the tile we want to move from
+     * @param {string} tilePiece - what piece is contained at the tile
+     */
     function checkRight(player, tile, tilePiece) {
     	log("CheckRight was run.")
     	log("Player: " + player + " Tile: " + tile + " Piece: " + tilePiece)
@@ -774,7 +871,7 @@ $(function () {
     		return;
     	}
 
-    	//unclickables yo
+    	//can't move into unclickable
     	if (unclickableTiles.indexOf(tile) !== -1) {
     		return;
     	}
@@ -798,12 +895,19 @@ $(function () {
     				checkRight(player, tile + 1, tilePiece)
     			}
     		}
-
     	} else {
     		tileExists.addClass("validMove");
     	}
     }
 
+    /**
+     * This is a helper function to check all valid moves in the down direction
+     * Can be called recursively if tilePiece is 2
+     * @function
+     * @param {int} player - player 1 or 2
+     * @param {int} tile - the tile we want to move from
+     * @param {string} tilePiece - what piece is contained at the tile
+     */
     function checkDown(player, tile, tilePiece) {
     	log("Check down was run.")
     	log("Player: " + player + " Tile: " + tile + " Piece: " + tilePiece)
@@ -818,7 +922,7 @@ $(function () {
     		return;
     	}
 
-    	//unclickables yo
+    	//can't move into unclickable
     	if (unclickableTiles.indexOf(tile) !== -1) {
     		return;
     	}
@@ -849,7 +953,10 @@ $(function () {
     	}
     }
 
-    // helper function to send a move to the server
+    /**
+     * This is a helper function to send the move to the server
+     * @function
+     */
     function sendMove() {
     	try {
 	    	connection.send(JSON.stringify({
@@ -863,12 +970,13 @@ $(function () {
     	}
     }
 
-    //if a restart happens, reset the board
-    // could perhaps just call this on initialization instead
+    /**
+     * This is a helper function to reset the board between games
+     * @function
+     */
     function resetBoard() {
     	for(i = 0; i < 10; i++) {
     		for (j = 0; j < 10; j++) {
-    			// tileDiv.className = "tile";
     			if (i === 0) {
     				var tileDiv = document.getElementById("t" + j)
     			} else {
@@ -888,12 +996,13 @@ $(function () {
     		}
     	}
     	$("#t42, #t43, #t46, #t47, #t52, #t53, #t56, #t57").removeClass("tile");
-    	$("#t42, #t43, #t46, #t47, #t52, #t53, #t56, #t57").addClass("lakeTile");
-    	$("#t42, #t43, #t46, #t47, #t52, #t53, #t56, #t57").addClass("unclickable");
+    	$("#t42, #t43, #t46, #t47, #t52, #t53, #t56, #t57").addClass("lakeTile unclickable");
     }
 
-    //function to show the two tiles affected by a move
-    //need work here to show the two pieces on the tile, not just in the status
+    /**
+     * This is a helper function to show the two pieces involved in a challenge
+     * @function
+     */
     function showAffectedTiles(boardAction, beforeTile, afterTile, beforeTilePiece, afterTilePiece) {
     	log("BeforeTilePiece: " + beforeTilePiece, 1)
     	log("AfterTilePiece: " + afterTilePiece, 1)
@@ -926,9 +1035,7 @@ $(function () {
     			$("#t" + afterTile).html("&#9873;");
     		} else {
     			$("#t" + afterTile).html(afterTilePiece);
-    			
     		}
-    		
     	}
 
     	setTimeout(function() {
@@ -938,7 +1045,6 @@ $(function () {
     		}
     			
     		if (boardAction === "emptyMove") {
-    			// showAffectedTiles("emptyMove", beforeTile, afterTile);
 
     			$("#t" + afterTile).html(originalBefore);
     			$("#t" + beforeTile).html("");
@@ -954,9 +1060,6 @@ $(function () {
 
     		} else if (boardAction === "challengeWon") { // the initiating piece won the exchange
     			
-    			// showAffectedTiles("challengeWon", beforeTile, afterTile, beforeTilePiece, afterTilePiece);
-    			// console.log("after challenge won")
-    			
     			$("#t" + afterTile).html(originalBefore);
     			$("#t" + beforeTile).html("");
 
@@ -968,36 +1071,24 @@ $(function () {
     			}
 
     			$("#t" + beforeTile).removeClass("player1 player2")
-    			// lastAction.html(beforeTilePiece + " takes " + afterTilePiece);
 
     		} else if (boardAction === "challengeLost") { // the initiating piece lost the exchange
     			log("Challenge lost. Before Tile Piece: " + beforeTilePiece + " After Tile Piece: " + afterTilePiece)
     			
-    			// showAffectedTiles("challengeLost", beforeTile, afterTile, beforeTilePiece, afterTilePiece);
-    			// console.log("after challenge lost")
     			$("#t" + beforeTile).html("");
     			
     			
     			$("#t" + beforeTile).removeClass("player1 player2")
     			$("#t" + afterTile).removeClass("immovable")
     			$("#t" + afterTile).html(originalAfter);
-    			// lastAction.html(afterTilePiece + " defends " + beforeTilePiece);
     		} else if (boardAction === "challengeMet") {
-    			// showAffectedTiles("challengeMet", beforeTile, afterTile, beforeTilePiece, afterTilePiece);
-    			console.log("after challenge met")
     			$("#t" + beforeTile).html("");
     			$("#t" + beforeTile).removeClass("player1 player2");
     			$("#t" + afterTile).html("");
     			$("#t" + afterTile).removeClass("player1 player2 immovable");
-    			// lastAction.html(beforeTilePiece + " draws with " + afterTilePiece);
     			log("Challenge Met. Before Tile Piece: " + beforeTilePiece + " After Tile Piece: " + afterTilePiece)
     		}
 
-	    	// if (challenge !== "emptyMove") {
-		    // 	$("#t" + beforeTile).html(originalBefore);
-		    // 	$("#t" + afterTile).html(originalAfter);
-	    	// }
-	    	console.log("INside set timeout")
 	    	$("#t" + beforeTile).removeClass("affectedTile");
 	    	$("#t" + afterTile).removeClass("affectedTile");
 
@@ -1005,7 +1096,10 @@ $(function () {
     	}, 1000);
     }
 
-    //update the sidebar when a restart happens
+    /**
+     * This is a helper function to reset the sidebar
+     * @function
+     */
     function resetPieceCount() {
     	$(".piecesWrapper .pieces li").each(function() {
     		var pieceClass = $(this).attr("class");
@@ -1013,7 +1107,11 @@ $(function () {
     	})
     }
 
-    // update the sidebar pieces when a piece is removed from the board via a challengeWon or lost or met
+    /**
+     * This is a helper function to update the sidebar when a piece
+     * is removed from the board.
+     * @function
+     */
     function removeFromPieceCount(boardAction, beforeTile, afterTile, beforeTilePiece, afterTilePiece) {
     	if (boardAction === "challengeWon") {
     		if ($("#t" + afterTile).hasClass("player1")) {
@@ -1050,10 +1148,11 @@ $(function () {
     	}
     }
 
+    /**
+     * This is a helper function to update the status field in the game header
+     * @function
+     */
     function updateLastAction(boardAction, beforeTilePiece, afterTilePiece) {
-    	/*<li class="S">&#127913; Spy. <span>Remaining: 1</span></li>
-		<li class="B">&#128163; Bombs. <span>Remaining: 6</span></li>
-		<li class="F">&#9873; Flag. <span>Remaining: 1</span></li>*/
 		var actionToUpdate = "";
     	if (beforeTilePiece == "B") {
     		beforeTilePiece = "&#128163;"
@@ -1082,7 +1181,10 @@ $(function () {
     	lastAction.html(actionToUpdate);
     }
 
-    // custom log function
+    /**
+     * This is a helper function to make logging easier
+     * @function
+     */
     function log(message, override) {
     	if (verbose === 1 || override === 1) {
     		console.log(message);
