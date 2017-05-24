@@ -9,16 +9,19 @@
 	<link rel="stylesheet" href="css/strat.css">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Slabo+13px" rel="stylesheet">
+	<link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script type="text/javascript" src="js/stratego.js"></script>
 </head>
 <body>
 	<div class="gameWrapper">
 		<div class="gameHeader">
-			<p>Status: <span id="status">Idle...</span></p>
-			<p id="gamesToJoin">Game 1: <span id="playersReady">0</span>/2 Players
+			<p>Status: <span id="status">Welcome to Stratego! Press Join and wait for an opponent.</span></p>
+			<p id="gamesToJoin">Game 1: <span id="playersReady">0</span>/2 Players.</p>
 			<p id="lastAction" class="hidden">Last Action: <span id="lastActionSpan"></span></p>
-			<button id="submit" value="joinGame">Join</button></p>
+			<button id="submit" value="joinGame">Join</button>
+			<button value="placePlayer" id="placePlayer">Place my pieces for me</button>
+			</p>
 			<p id="player"></p>
 		</div>
 		<div class="gameBoard" id="gameBoard"></div>
@@ -41,7 +44,6 @@
 				<li class="B">&#128163; Bombs. <span>Remaining: 6</span></li>
 				<li class="F">&#9873; Flag. <span>Remaining: 1</span></li>
 			</ul>
-			<button value="placePlayer1" id="placePlayer1">Place my pieces for me</button>
 		</div>
 		<div class="pieces player2Pieces">
 			<h2>Player 2 Pieces</h2>
@@ -59,8 +61,9 @@
 				<li class="B">&#128163; Bombs. <span>Remaining: 6</span></li>
 				<li class="F">&#9873; Flag. <span>Remaining: 1</span></li>
 			</ul>
-			<button value="placePlayer2" id="placePlayer2">Place my pieces for me</button>
 		</div>
+		<p>Click <a href="https://en.wikipedia.org/wiki/Stratego#Gameplay" target="_blank">here</a> to learn the rules of Stratego.</p>
 	</div>
+	<script src="js/bootstrap.min.js"></script>
   </body>
 </html>

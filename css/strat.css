@@ -2,6 +2,10 @@
 	font-family: 'Open Sans', sans-serif;
 }
 
+body {
+	margin: 25px;
+}
+
 button {
 	border-radius: 5px;
 	font-size: 20px;
@@ -12,7 +16,6 @@ button {
 	font-size: 1.5rem;
 	font-weight: 100;
 	border: 1px solid #fff;
-	/*box-shadow: 2px 2px 5px #AFE9FF;*/
 }
 
 .piecesWrapper {
@@ -23,6 +26,10 @@ button {
 
 .piecesWrapper h2 {
 	font-family: 'Slabo 13px', serif;
+}
+
+#placePlayer {
+	display: none;
 }
 
 .pieces ul {
@@ -42,15 +49,12 @@ button {
 	width: 900px;
 	height: 950px;
 	background: #d5d9cc;
-	/*background: lightpink;*/
-	/*border: solid black 1px;*/
 	margin: 0 auto;
+	margin-bottom: 30px;
 }
 
 .gameHeader {
 	background: #d5d9cc;
-	/*background: grey;*/
-	/*border: dotted grey 1px;*/
 	height: 120px;
 	margin-left: 50px;
 	padding-top: 10px;
@@ -73,7 +77,6 @@ button {
 .gameBoard {
 	width: 800px;
 	height: 800px;
-	/*background: #6e9934;*/
 	margin: 0 auto;
 	font-family: 'Slabo 13px', serif;
 }
@@ -87,7 +90,6 @@ button {
 	width: 80px;
 	height: 80px;
 	background: #6e9934;
-	/*border: solid #ef3d47 1px;*/
 	border: solid white 1px;
 	color: white;
 	float: left;
@@ -99,15 +101,8 @@ button {
 .gameBoard .lakeTile {
 	width: 80px;
 	height: 80px;
-	/*width: 160px;
-	height: 160px;*/
-	/*background: lightblue;*/
-	/*border: solid white 1px;*/
 	color: white;
 	float: left;
-	/*text-align: center;*/
-	/*padding-top: 30px;*/
-	/*background-size: 300px 300px;*/
 }
 
 .gameBoard #t42 {
@@ -200,9 +195,7 @@ button {
 
 .gameFooter {
 	background: #d5d9cc;
-	/*background: grey;*/
 	height: 50px;
-	/*border: dotted blue 1px;*/
 }
 
 @-webkit-keyframes affectedTile {
@@ -213,20 +206,36 @@ button {
     22% {
         background-color: #99cc66;
     }
-    /*100% {
-        background-color: #777;
-    }*/
 }
     
 .affectedTile {
     -webkit-animation-name: affectedTile;
-    -webkit-animation-duration: 900ms;
+    -webkit-animation-duration: 1000ms;
     -webkit-animation-iteration-count: 1;
     -webkit-animation-timing-function: ease-in-out;
+    animation-name: affectedTile;
+    animation-duration: 1000ms;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
 } 
 
 @media (max-width: 1500px) {
 	.piecesWrapper {
 		position: relative;
+		width: 80%;
+		margin: 0 auto;
+	}
+
+	.piecesWrapper .pieces {
+		float: left;
+		height: 100%;
+	}
+
+	.piecesWrapper .player1Pieces {
+		width: 50%;
+	}
+
+	.piecesWrapper p {
+		clear: both;
 	}
 }
